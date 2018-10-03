@@ -51,9 +51,6 @@ function initMap() {
 
     //Evento de terminar el rectangulo
     google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (poly) {
-        console.log(poly);
-        console.log(poly.getBounds().getNorthEast());
-        console.log(poly.getBounds().getSouthWest());
 
         //Marcadores de las esquinas del rectangulo
         var posMarkerNorth = {
@@ -95,13 +92,14 @@ function initMap() {
         var distance_in_meter = 300;
         var bearing = cardinalPoints.west;
 
-        var start = new LatLon(posMarkerNorth.lat, posMarkerNorth.lng);
+        //var start = new LatLon(posMarkerNorth.lat, posMarkerNorth.lng);
 
-        var destination = start.rhumbDestinationPoint(distance_in_meter, bearing);
+        var destination = traceDestinationPoint(posMarkerNorth, distance_in_meter, bearing);
+        console.log(destination);
         var impactP = new google.maps.Polyline({
             map: map,
             path: [new google.maps.LatLng(posMarkerNorth.lat, posMarkerNorth.lng),
-            new google.maps.LatLng(destination.lat, destination.lon)
+            new google.maps.LatLng(destination.lat, destination.lng)
             ],
             strokeColor: "#FF0000",
             strokeOpacity: 1.0,
@@ -109,7 +107,7 @@ function initMap() {
         });
 
         var markerDest = new google.maps.Marker({
-            position: new google.maps.LatLng(destination.lat, destination.lon),
+            position: new google.maps.LatLng(destination.lat, destination.lng),
             map: map
         });
 
@@ -122,46 +120,4 @@ function initMap() {
 }
 
 
-// Distancia entre 2 puntos teniendo latitud y longitud
-function getDistanceBetweenPoints(start, end, units) {
 
-    let earthRadius = {
-        miles: 3958.8,
-        km: 6371
-    };
-
-    var R = earthRadius[units || 'km'];
-    var lat1 = start.lat;
-    var lon1 = start.lng;
-    var lat2 = end.lat;
-    var lon2 = end.lng;
-
-    var dLat = toRad((lat2 - lat1));
-    var dLon = toRad((lon2 - lon1));
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c;
-
-    return d;
-}
-
-function toRad(x) {
-    return x * Math.PI / 180;
-}
-
-// Distancia de un array de posiciones
-function distanceOfRoute(route) {
-    console.log(route);
-    let result = {
-        miles: 0,
-        km: 0
-    }
-    for (let i = 0; i < route.length - 1; i++) {
-        result.km = result.km + getDistanceBetweenPoints(route[i], route[i + 1], "km");
-        result.miles = result.miles + getDistanceBetweenPoints(route[i], route[i + 1], "miles");
-    }
-    return result;
-}
