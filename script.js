@@ -14,7 +14,8 @@ function initMap() {
     // Configuración inicial del mapa, almacenado en una variable global
     map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 24.018495, lng: -104.5480484 },
-        zoom: 15
+        zoom: 16,
+        mapTypeId: 'satellite'
     });
 
     // Herramientas de dibujo de google maps, se da de alta las opciones de dichas herramientas
@@ -33,20 +34,26 @@ function initMap() {
 
     // Evento de terminar el poligono, al terminar imprime la distancia en kilometros y millas del perimetro
     google.maps.event.addListener(drawingManager, 'polygoncomplete', function (poly) {
+        var polygon = [];
         poly.getPath().forEach(pos => {
-            polygonPerim.push({ lat: pos.lat(), lng: pos.lng() })
+            var point = new LatLng(pos.lat(), pos.lng())
+            polygonPerim.push(objectToJSON(point));
+            polygon.push(point);
         });
+
+        
         console.log(polygonPerim);
         console.log(distanceOfRoute(polygonPerim));
+        console.log("Area of polygon: " + LatLng.areaOf(polygon).toFixed(3) + " mts2")
     });
 
     // Evento de terminar la polilinea, al terminar imprime la distancia en kilometros y millas
     google.maps.event.addListener(drawingManager, 'polylinecomplete', function (poly) {
+        var polyLine = [];
         poly.getPath().forEach(pos => {
-            polygonPerim.push({ lat: pos.lat(), lng: pos.lng() })
+            polyLine.push({ lat: pos.lat(), lng: pos.lng() })
         });
-        console.log(polygonPerim);
-        console.log(distanceOfRoute(polygonPerim));
+        console.log(distanceOfRoute(polyLine));
     });
 
     //Evento de terminar el rectangulo
