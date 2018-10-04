@@ -43,8 +43,8 @@ function initMap() {
 
         
         console.log(polygonPerim);
-        console.log(distanceOfRoute(polygonPerim));
-        console.log("Area of polygon: " + LatLng.areaOf(polygon).toFixed(3) + " mts2")
+        console.log(MapsLib.distanceOfRoute(polygonPerim));
+        console.log("Area of polygon: " + MapsLib.areaOf(polygon).toFixed(3) + " mts2")
     });
 
     // Evento de terminar la polilinea, al terminar imprime la distancia en kilometros y millas
@@ -53,7 +53,7 @@ function initMap() {
         poly.getPath().forEach(pos => {
             polyLine.push({ lat: pos.lat(), lng: pos.lng() })
         });
-        console.log(distanceOfRoute(polyLine));
+        console.log(MapsLib.distanceOfRoute(polyLine));
     });
 
     //Evento de terminar el rectangulo
@@ -101,7 +101,7 @@ function initMap() {
 
         //var start = new LatLon(posMarkerNorth.lat, posMarkerNorth.lng);
 
-        var destination = traceDestinationPoint(posMarkerNorth, distance_in_meter, bearing);
+        var destination = MapsLib.traceDestinationPoint(posMarkerNorth, distance_in_meter, bearing);
         console.log(destination);
         var impactP = new google.maps.Polyline({
             map: map,
@@ -119,7 +119,7 @@ function initMap() {
         });
 
 
-        console.log(distanceOfRoute(diagonalPath));
+        console.log(MapsLib.distanceOfRoute(diagonalPath));
     });
 
 
