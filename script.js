@@ -187,7 +187,7 @@ function initMap() {
             path: [drone_position,
                 home
             ],
-            strokeColor: "#FF0000",
+            strokeColor: "#00FF00",
             strokeOpacity: 1.0,
             strokeWeight: 2
         });
