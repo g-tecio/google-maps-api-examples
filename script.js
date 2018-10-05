@@ -1,3 +1,19 @@
+var contenidoDeArchivo = "coordenadas del terreno";
+var elem = document.getElementById('descargar');
+
+elem.download = "archivo.txt";
+elem.href = "data:application/octet-stream," 
+    + encodeURIComponent(contenidoDeArchivo);
+
+
+//Funicion para acumular las coordenadas en archivo.txt
+//No mames estoy aprendiendo Javascript lol
+function chargeText(contenidoDeArchivo){
+    elem.download = "archivo.txt";
+    elem.href = "data:application/octet-stream," 
+        + encodeURIComponent(contenidoDeArchivo);
+}
+
 var map;
 var polygonPerim = [];
 var rectangle = [];
@@ -19,6 +35,7 @@ var RECTANGLE_DIMENTIONS = {
     heigth: 0,
     width: 0
 }
+
 
 // Función de inicialización del mapa
 function initMap() {
@@ -56,6 +73,8 @@ function initMap() {
         console.log(polygonPerim);
         console.log(MapsLib.distanceOfRoute(polygonPerim));
         console.log("Area of polygon: " + MapsLib.areaOf(polygon).toFixed(3) + " mts2")
+        contenidoDeArchivo = (contenidoDeArchivo + " Area of polygon: " + MapsLib.areaOf(polygon).toFixed(3) + "mts2");
+        chargeText(contenidoDeArchivo);
     });
 
     // Evento de terminar la polilinea, al terminar imprime la distancia en kilometros y millas
@@ -65,6 +84,8 @@ function initMap() {
             polyLine.push({ lat: pos.lat(), lng: pos.lng() })
         });
         console.log(MapsLib.distanceOfRoute(polyLine));
+        contenidoDeArchivo = (MapsLib.distanceOfRoute(polyLine));
+        chargeText(contenidoDeArchivo);
     });
 
     //Evento de terminar el rectangulo
