@@ -48,12 +48,12 @@ function initMap() {
 
     // Herramientas de dibujo de google maps, se da de alta las opciones de dichas herramientas
     var drawingManager = new google.maps.drawing.DrawingManager({
-        drawingMode: google.maps.drawing.OverlayType.MARKER,
+        drawingMode: google.maps.drawing.OverlayType.RECTANGLE,
         drawingControl: true,
         drawingControlOptions: {
-            position: google.maps.ControlPosition.TOP_CENTER,
+            position: google.maps.ControlPosition.BOTTOM_CENTER,
             //He
-            drawingModes: ['marker', 'polyline', 'polygon', 'rectangle']
+            drawingModes: ['rectangle', 'polyline', 'polygon']
         },
         markerOptions: { icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png' },
 
@@ -201,7 +201,7 @@ function initMap() {
     // Crea la barra buscadora y la liga para la interfaz
     var input = document.getElementById('pac-input');
     var searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
 
     // Manda los resultados del cuadro de búsqueda hacia la ventana de mapas actual
     map.addListener('bounds_changed', function () {
